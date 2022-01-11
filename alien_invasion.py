@@ -102,7 +102,6 @@ class AlienInvasion:
             self._create_fleet()
             # 消灭所有外星人之后，加快游戏速度
             self.settings.increase_speed()
-
             # 提高等级
             self.stats.level += 1
             self.sb.prep_level()
@@ -110,7 +109,7 @@ class AlienInvasion:
     def _update_alien(self):
         self._check_fleet_edges()
         self.aliens.update()
-        #     检测外星人和飞船之间的碰撞
+        # 检测外星人和飞船之间的碰撞
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
             self._ship_hit()
         # 检查是否有外星人到达屏幕底端
