@@ -48,8 +48,11 @@ class AlienInvasion:
             self._check_events()
             # 如果游戏处于活动状态
             if self.stats.game_active:
+                # 飞船更新
                 self.ship.update()
+                # 更新子弹
                 self._update_bullets()
+                # 更新外星人
                 self._update_alien()
                 # 每次循环时都会重新绘制屏幕
             self._update_screen()
