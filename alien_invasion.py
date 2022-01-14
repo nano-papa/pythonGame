@@ -63,17 +63,21 @@ class AlienInvasion:
         if self.stats.game_active:
             # 将ships_left减1并更新积分牌
             self.stats.ships_left -= 1
+            # 显示左上角剩余飞船数
             self.sb.prep_ships()
-            #  清空剩余的外星人和子弹
+            #  清空剩余的外星人
             self.aliens.empty()
+            # 清空剩余子弹
             self.bullets.empty()
             # 创建一群新的外星人，并将飞船放到屏幕低端的中央
             self._create_fleet()
+            # 将飞船放在屏幕的中央
             self.ship.center_ship()
             # 暂停
             sleep(0.5)
         else:
             self.stats.game_active = False
+            # 鼠标移入屏幕之后鼠标消失
             pygame.mouse.set_visible(True)
 
     def _update_bullets(self):
@@ -83,6 +87,7 @@ class AlienInvasion:
 
         # 删除消失的子弹
         for bullet in self.bullets.copy():
+            # 如果子弹消失在屏幕中，就从子弹数组中删除
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
         # 检查是否有子弹击中了外星人
@@ -96,20 +101,26 @@ class AlienInvasion:
         # 击中之后记分牌加分
         if collisions:
             for aliens in collisions.values():
+                # 集中之后累加得分
                 self.stats.score += self.settings.alien_points * len(aliens)
+                # 更新右上角的分数
                 self.sb.prep_score()
+                # 更新屏幕中央的最高分
                 self.sb.check_high_score()
         if not self.aliens:
-            # 删除删除现在的所有子弹，并创建一群新的外星人
+            # 删除删除现在的所有子弹
             self.bullets.empty()
+            # 创建一群新的外星人
             self._create_fleet()
             # 消灭所有外星人之后，加快游戏速度
             self.settings.increase_speed()
             # 提高等级
             self.stats.level += 1
+            # 更新游戏速度
             self.sb.prep_level()
 
     def _update_alien(self):
+        """更新外星人"""
         self._check_fleet_edges()
         self.aliens.update()
         # 检测外星人和飞船之间的碰撞
